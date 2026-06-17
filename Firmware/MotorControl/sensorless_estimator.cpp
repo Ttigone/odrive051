@@ -35,9 +35,10 @@ bool SensorlessEstimator::update() {
               V_alpha_beta_memory_[i];
     // flux dynamics (prediction)
     float x_dot = y;
-    // integrate prediction to current timestep
+    // 积分得到定子磁链
     flux_state_[i] += x_dot * current_meas_period;
 
+    // 预测磁链
     // eta is the estimated permanent magnet flux (see paper eqn 6)
     eta[i] = flux_state_[i] -
              axis_->motor_.config_.phase_inductance * I_alpha_beta[i];

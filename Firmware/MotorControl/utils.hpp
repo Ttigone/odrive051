@@ -80,8 +80,13 @@ std::array<T, 1 + sizeof...(Tail)> make_array(T head, Tail... tail)
 extern "C" {
 #endif
 
+// tan30
 static const float one_by_sqrt3 = 0.57735026919f;
+
+// 1/sin60
 static const float two_by_sqrt3 = 1.15470053838f;
+
+// cos60
 static const float sqrt3_by_2 = 0.86602540378f;
 
 // like fmodf, but always positive
