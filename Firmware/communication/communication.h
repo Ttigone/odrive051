@@ -19,7 +19,7 @@ extern const uint32_t stack_size_comm_thread;
 
 void init_communication(void);
 void initTree();
-void communication_task(void * ctx);
+void communication_task(void* ctx);
 
 #ifdef __cplusplus
 }

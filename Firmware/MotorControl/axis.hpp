@@ -63,6 +63,7 @@ public:
         void set_dir_gpio_pin(uint16_t value) { dir_gpio_pin = value; parent->decode_step_dir_pins(); }
     };
 
+    // 归零
     struct Homing_t {
         bool is_homed = false;
     };

@@ -5,7 +5,7 @@
 #error "This file should not be included directly. Include odrive_main.h instead."
 #endif
 
-
+// 编码器
 class Encoder : public ODriveIntf::EncoderIntf {
 public:
     static constexpr uint32_t MODE_FLAG_ABS = 0x100;
@@ -13,6 +13,7 @@ public:
     struct Config_t {
         Mode mode = MODE_INCREMENTAL;
         bool use_index = false;
+        // 预校准
         bool pre_calibrated = false; // If true, this means the offset stored in
                                     // configuration is valid and does not need
                                     // be determined by run_offset_calibration.
