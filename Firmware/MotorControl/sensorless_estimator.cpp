@@ -16,6 +16,7 @@ bool SensorlessEstimator::update() {
   // V_alpha_beta_memory.
 
   // clark 变换
+  // 将三相电流 phB phC phA(B C 得到) 变换到静止两相 afa bta 坐标系
   float I_alpha_beta[2] = {
       -axis_->motor_.current_meas_.phB - axis_->motor_.current_meas_.phC,
       one_by_sqrt3 *
@@ -23,7 +24,7 @@ bool SensorlessEstimator::update() {
 
   // Swap sign of I_beta if motor is reversed
 
-  // 设置电机转向 -> 影响电流矢量方向
+  // 设置电机转向 -> 影响电流矢量方向  反装 bta 轴分量, 匹配电机正转反向
   I_alpha_beta[1] *= axis_->motor_.config_.direction;
 
   // a b 矢量合成
@@ -65,6 +66,8 @@ bool SensorlessEstimator::update() {
   V_alpha_beta_memory_[0] = axis_->motor_.current_control_.final_v_alpha;
   V_alpha_beta_memory_[1] = axis_->motor_.current_control_.final_v_beta *
                             axis_->motor_.config_.direction;
+
+  // 锁相环(PLL)部分                           
 
   // PLL
   // TODO: the PLL part has some code duplication with the encoder PLL
