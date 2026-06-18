@@ -10,18 +10,33 @@
 #include <communication/interface_i2c.h>
 #include <communication/interface_can.hpp>
 
+// CAN 控制配置模块
 ODriveCAN::Config_t can_config;
+
+// 编码器配置模块
 Encoder::Config_t encoder_configs[AXIS_COUNT];
+
+// 无感估测
 SensorlessEstimator::Config_t sensorless_configs[AXIS_COUNT];
+
+// 主控逻辑
 Controller::Config_t controller_configs[AXIS_COUNT];
+
+// 电机
 Motor::Config_t motor_configs[AXIS_COUNT];
+
+// 开关电流 限流
 OnboardThermistorCurrentLimiter::Config_t fet_thermistor_configs[AXIS_COUNT];
 OffboardThermistorCurrentLimiter::Config_t motor_thermistor_configs[AXIS_COUNT];
+
+// 轴配置
 Axis::Config_t axis_configs[AXIS_COUNT];
+
 TrapezoidalTrajectory::Config_t trap_configs[AXIS_COUNT];
 Endstop::Config_t min_endstop_configs[AXIS_COUNT];
 Endstop::Config_t max_endstop_configs[AXIS_COUNT];
 
+// 仅支持同时控制两个电机
 std::array<Axis*, AXIS_COUNT> axes;
 ODriveCAN* odCAN = nullptr;
 ODrive odrv{};
