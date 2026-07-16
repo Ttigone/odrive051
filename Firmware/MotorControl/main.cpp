@@ -268,7 +268,9 @@ void vApplicationIdleHook(void) {
 }
 }
 
+// 在 MX_FREERTOS_Init 中任务启动
 int odrive_main(void) {
+
   // Start ADC for temperature measurements and user measurements
   start_general_purpose_adc();
 

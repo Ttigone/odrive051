@@ -50,6 +50,8 @@ void start_pwm(TIM_HandleTypeDef* htim);
 void sync_timers(TIM_HandleTypeDef* htim_a, TIM_HandleTypeDef* htim_b,
                  uint16_t TIM_CLOCKSOURCE_ITRx, uint16_t count_offset,
                  TIM_HandleTypeDef* htim_refbase = nullptr);
+
+// adc 检测
 void start_general_purpose_adc();
 float get_adc_voltage(const GPIO_TypeDef* const GPIO_port, uint16_t GPIO_pin);
 uint16_t channel_from_gpio(const GPIO_TypeDef* const GPIO_port, uint16_t GPIO_pin);

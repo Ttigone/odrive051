@@ -14,6 +14,7 @@ extern "C" {
 extern osThreadId usb_thread;
 extern const uint32_t stack_size_usb_thread;
 
+// 静态信息
 typedef struct {
     uint32_t rx_cnt;
     uint32_t tx_cnt;
