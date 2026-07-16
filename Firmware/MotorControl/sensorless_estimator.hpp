@@ -11,7 +11,11 @@ class SensorlessEstimator : public ODriveIntf::SensorlessEstimatorIntf {
                                        // (<pole pairs> * <rpm/v>) }
   };
 
-  // NOTE 使用引用的问题
+  // NOTE 构造函数使用非 const 引用 (Config_t& config) 的原因：
+  // 1. 避免拷贝：直接传引用开销更低
+  // 2. 配置联动：外部修改 config 时，SensorlessEstimator 内部同步变化，无需额外同步机制
+  // 3. 生命周期由调用方管理：不获取所有权，但 SensorlessEstimator 的生命周期必须短于传入的 config
+  //    （风险点：若 config 被提前销毁，会产生悬垂引用）
   explicit SensorlessEstimator(Config_t& config);
 
   bool update();
