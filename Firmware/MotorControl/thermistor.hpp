@@ -6,6 +6,7 @@
     "This file should not be included directly. Include odrive_main.h instead."
 #endif
 
+// 热敏电阻限流器
 class ThermistorCurrentLimiter
     : public CurrentLimiter,
       public ODriveIntf::ThermistorCurrentLimiterIntf {
@@ -32,6 +33,8 @@ class ThermistorCurrentLimiter
   Axis* axis_ = nullptr;  // set by Axis constructor
 };
 
+
+// 板载热敏电阻限流器
 class OnboardThermistorCurrentLimiter
     : public ThermistorCurrentLimiter,
       public ODriveIntf::OnboardThermistorCurrentLimiterIntf {
@@ -49,6 +52,7 @@ class OnboardThermistorCurrentLimiter
   Config_t& config_;
 };
 
+// 外部热敏电阻限流器
 class OffboardThermistorCurrentLimiter
     : public ThermistorCurrentLimiter,
       public ODriveIntf::OffboardThermistorCurrentLimiterIntf {
