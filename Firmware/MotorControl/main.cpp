@@ -270,8 +270,7 @@ void vApplicationIdleHook(void) {
 
 // 在 MX_FREERTOS_Init 中任务启动
 int odrive_main(void) {
-
-  // Start ADC for temperature measurements and user measurements
+  // 配置 adc
   start_general_purpose_adc();
 
   // TODO: make dynamically reconfigurable
@@ -281,7 +280,7 @@ int odrive_main(void) {
     SetGPIO12toUART();
   }
 #endif
-  // 使用 FreeRtos 创建任务
+  // FreeRtos 创建  usb 通信, uart 通信线程任务
   // osDelay(100);
   //  Init communications (this requires the axis objects to be constructed)
   init_communication();

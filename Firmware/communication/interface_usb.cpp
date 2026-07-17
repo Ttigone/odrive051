@@ -57,8 +57,11 @@ class USBSender : public PacketSink {
 };
 
 // Note we could have independent semaphores here to allow concurrent
-// transmission
+
+// 传输
+// cdc stm32 标准 虚拟串口
 USBSender usb_packet_output_cdc(CDC_OUT_EP, sem_usb_tx);
+// 自定义发送函数
 USBSender usb_packet_output_native(ODRIVE_OUT_EP, sem_usb_tx);
 
 class TreatPacketSinkAsStreamSink : public StreamSink {
@@ -95,18 +98,19 @@ BidirectionalPacketBasedChannel usb_channel(usb_packetized_output);
 StreamToPacketSegmenter usb_native_stream_input(usb_channel);
 #endif
 
+// USB 信息结构体
 struct USBInterface {
   uint8_t* rx_buf = nullptr;
   uint32_t rx_len = 0;
+  // 数据待处理标志 true 表示有新数据已写入缓冲区、等待上层处理；false
+  // 表示缓冲区空闲
   bool data_pending = false;
-  uint8_t out_ep;
-  uint8_t in_ep;
+  uint8_t out_ep;  // usb out 端点号  主机发往设备的硬件端点地址
+  uint8_t in_ep;   // usb in 端点号   设备发往主机的硬件断点地址
   USBSender& usb_sender;
 };
 
-// Note: statics make this less modular.
-// Note: we use a single rx semaphore and loop over data_pending to allow a
-// single pump loop thread
+// 回环测试 CDC 虚拟 USB COM 口
 static USBInterface CDC_interface = {
     .rx_buf = nullptr,
     .rx_len = 0,
@@ -115,6 +119,8 @@ static USBInterface CDC_interface = {
     .in_ep = CDC_IN_EP,
     .usb_sender = usb_packet_output_cdc,
 };
+
+// odrive USB COM 口
 static USBInterface ODrive_interface = {
     .rx_buf = nullptr,
     .rx_len = 0,
@@ -129,8 +135,11 @@ static void usb_server_thread(void* ctx) {
 
   for (;;) {
     // const uint32_t usb_check_timeout = 1; // ms
+
+    // 获取接收 锁信号量成功
     osStatus sem_stat = osSemaphoreWait(sem_usb_rx, osWaitForever);
     if (sem_stat == osOK) {
+      // 接收次数 +1
       usb_stats_.rx_cnt++;
 
       // CDC Interface
@@ -191,7 +200,7 @@ void usb_rx_process_packet(uint8_t* buf, uint32_t len, uint8_t endpoint_pair) {
 }
 
 void start_usb_server() {
-  // Start USB communication thread
+  // 启动 USB 线程任务
   osThreadDef(usb_server_thread_def, usb_server_thread, osPriorityNormal, 0,
               stack_size_usb_thread / sizeof(StackType_t));
   usb_thread = osThreadCreate(osThread(usb_server_thread_def), NULL);

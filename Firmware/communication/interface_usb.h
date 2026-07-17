@@ -16,18 +16,20 @@ extern const uint32_t stack_size_usb_thread;
 
 // 静态信息
 typedef struct {
-    uint32_t rx_cnt;
-    uint32_t tx_cnt;
-    uint32_t tx_overrun_cnt;
+  uint32_t rx_cnt;  // 接收数
+  uint32_t tx_cnt;  // 发送数
+  uint32_t tx_overrun_cnt;
 } USBStats_t;
 
 extern USBStats_t usb_stats_;
 
-void usb_rx_process_packet(uint8_t *buf, uint32_t len, uint8_t endpoint_pair);
+// 处理 usb 解析
+void usb_rx_process_packet(uint8_t* buf, uint32_t len, uint8_t endpoint_pair);
+
 void start_usb_server(void);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif // __INTERFACE_USB_HPP
+#endif  // __INTERFACE_USB_HPP

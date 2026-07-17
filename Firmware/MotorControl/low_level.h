@@ -56,6 +56,8 @@ void start_general_purpose_adc();
 float get_adc_voltage(const GPIO_TypeDef* const GPIO_port, uint16_t GPIO_pin);
 uint16_t channel_from_gpio(const GPIO_TypeDef* const GPIO_port, uint16_t GPIO_pin);
 float get_adc_voltage_channel(uint16_t channel);
+
+// pwm 模块
 void pwm_in_init();
 void start_analog_thread();
 
