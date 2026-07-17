@@ -103,8 +103,13 @@ class Motor : public ODriveIntf::MotorIntf {
   void reset_current_control();
 
   void update_current_controller_gains();
+  
+  // 作用: 设置DRV8301的增益以满足所请求的电流范围
   void DRV8301_setup();
+
+  // 检查DRV8301是否有故障
   bool check_DRV_fault();
+
   void set_error(Error error);
   bool do_checks();
   float effective_current_lim();
