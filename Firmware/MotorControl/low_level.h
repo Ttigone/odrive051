@@ -3,7 +3,8 @@
 #define __LOW_LEVEL_H
 
 #ifndef __ODRIVE_MAIN_H
-#error "This file should not be included directly. Include odrive_main.h instead."
+#error \
+    "This file should not be included directly. Include odrive_main.h instead."
 #endif
 
 #ifdef __cplusplus
@@ -34,7 +35,8 @@ bool safety_critical_disarm_motor_pwm(Motor& motor);
 void safety_critical_apply_motor_pwm_timings(Motor& motor, uint16_t timings[3]);
 void safety_critical_arm_brake_resistor();
 void safety_critical_disarm_brake_resistor();
-void safety_critical_apply_brake_resistor_timings(uint32_t low_off, uint32_t high_on);
+void safety_critical_apply_brake_resistor_timings(uint32_t low_off,
+                                                  uint32_t high_on);
 
 // called from STM platform code
 extern "C" {
@@ -54,27 +56,29 @@ void sync_timers(TIM_HandleTypeDef* htim_a, TIM_HandleTypeDef* htim_b,
 // adc 检测
 void start_general_purpose_adc();
 float get_adc_voltage(const GPIO_TypeDef* const GPIO_port, uint16_t GPIO_pin);
-uint16_t channel_from_gpio(const GPIO_TypeDef* const GPIO_port, uint16_t GPIO_pin);
+uint16_t channel_from_gpio(const GPIO_TypeDef* const GPIO_port,
+                           uint16_t GPIO_pin);
 float get_adc_voltage_channel(uint16_t channel);
 
 // pwm 模块
 void pwm_in_init();
 void start_analog_thread();
 
+// 刹车电流
 void update_brake_current();
 
 inline uint32_t cpu_enter_critical() {
-    uint32_t primask = __get_PRIMASK();
-    __disable_irq();
-    return primask;
+  uint32_t primask = __get_PRIMASK();
+  __disable_irq();
+  return primask;
 }
 
 inline void cpu_exit_critical(uint32_t priority_mask) {
-    __set_PRIMASK(priority_mask);
+  __set_PRIMASK(priority_mask);
 }
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif //__LOW_LEVEL_H
+#endif  //__LOW_LEVEL_H

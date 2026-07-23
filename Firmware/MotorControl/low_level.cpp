@@ -686,8 +686,6 @@ void update_brake_current() {
   safety_critical_apply_brake_resistor_timings(low_off, high_on);
 }
 
-/* RC PWM input --------------------------------------------------------------*/
-
 // @brief Returns the ODrive GPIO number for a given
 // TIM2 or TIM5 input capture channel number.
 int tim_2_5_channel_num_to_gpio_num(int channel) {
@@ -796,7 +794,7 @@ void handle_pulse(int gpio_num, uint32_t high_time) {
     high_time = PWM_MIN_HIGH_TIME;
   }
   if (high_time > PWM_MAX_HIGH_TIME) {
-    high_time = PWM_MAX_HIGH_TIME; 
+    high_time = PWM_MAX_HIGH_TIME;
   }
 
   float fraction = (float)(high_time - PWM_MIN_HIGH_TIME) /

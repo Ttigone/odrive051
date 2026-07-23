@@ -506,7 +506,7 @@ void Axis::run_state_machine_loop() {
             error_ &= ~ERROR_INVALID_STATE;
         }
 
-        // Note that current_state is a reference to task_chain_[0]
+        // current_state 是 task_chain[0] 引用, front
 
         // Run the specified state
         // Handlers should exit if requested_state != AXIS_STATE_UNDEFINED
